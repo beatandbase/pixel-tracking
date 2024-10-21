@@ -47,8 +47,8 @@
     <tbody>
       {% for row in data %}
       <tr>
-        <td>{{row.id}}</td>
-        <td>{{row.track.email_recipient}}</td>
+        <td>{{forloop.counter}}</td>
+        <td>{{row.email_recipient}}</td>
         <td>{{row.visit_count}}</td>
       </tr>
       {% empty %}
