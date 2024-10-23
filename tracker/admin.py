@@ -1,13 +1,27 @@
 from django.contrib import admin
-from .models import TrackRecord
-from .decode_and_encoder import encode_data
+from .models import TrackRecord,VisitorRecord
+from .helpers.decode_and_encoder import encode_data
 
+
+class VisitorRecordIndline(admin.TabularInline):
+    model = VisitorRecord
+    extra = 0
+    can_delete = False
+    readonly_fields = ('user_agent','ip','isp','city','country','state')
 
 class TrackRecordAdmin(admin.ModelAdmin):
     readonly_fields = ('tracker_link','tracker_id')
-    fields = ('tracker_id','email_recipient','user','tracker_link','visit_count')
-
     list_display = ('email_recipient','user','visit_count')
+
+    fieldsets = [
+        (None,
+         {
+             "fields": ['tracker_id','email_recipient','user','tracker_link','visit_count'],
+         }
+         ),
+    ]
+
+    inlines = [VisitorRecordIndline]
 
     def tracker_link(self,*args):
         is_formatted = False
@@ -28,3 +42,4 @@ class TrackRecordAdmin(admin.ModelAdmin):
             return f'{settings.DOMAIN_NAME}{params}'
 
 admin.site.register(TrackRecord,TrackRecordAdmin)
+admin.site.register(VisitorRecord)
