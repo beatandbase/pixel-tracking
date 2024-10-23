@@ -85,7 +85,8 @@ def serve_image(req):
                 return HttpResponse('Error: Enter valid URL',status=403)
             
             if track_instance:
-                # try:
+                try:
+                    print(req.META)
                     request_info = get_request_data(req)
                     print('\nClient:>> ',request_info,'\n')
 
@@ -101,10 +102,10 @@ def serve_image(req):
                     track_instance.visit_count+=1
                     track_instance.save()
 
-                # except:
-                #     return HttpResponse('Something went wrong',500)
+                except:
+                    return HttpResponse('Something went wrong',500)
 
-                    return _PIXEL_IMAGE_RESPONSE()
+                return _PIXEL_IMAGE_RESPONSE()
             
             else:
                 return HttpResponse("Track history don't exist",404)
@@ -112,4 +113,3 @@ def serve_image(req):
             return HttpResponse('Bad Request',status=403)
     else:
         return HttpResponse(f"Method `{req.method}` is not allowed",status=405)
-    
