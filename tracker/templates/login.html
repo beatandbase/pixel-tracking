@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- Source Codes By CodingNepal - www.codingnepalweb.com -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+<body>
+  <div class="login_form">
+    <!-- Login form container -->
+    <form action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+      <h3>Log-in</h3>
+
+      <p style="color: red;" >
+          {{error}}
+      </p>
+     
+      <!-- Username input box -->
+      <div class="input_box">
+        <label for="username">Email</label>
+        <input name="username" type="text" id="username" value="{{username}}" placeholder="Enter Usename" required />
+      </div>
+      <!-- Paswwrod input box -->
+      <div class="input_box">
+        <div class="password_title">
+          <label for="password">Password</label>
+        </div>
+        <input name="password" type="password" id="password" placeholder="Enter your password" required />
+      </div>
+       <!-- Login button -->
+      <button type="submit">Log In</button>
+      {% comment %}
+          <p class="sign_up">Don't have an account? <a href="#">Sign up</a></p>
+      {% endcomment %}
+    </form>
+  </div>
+</body>
+</html>

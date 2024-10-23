@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <h1>Hey {{request.user}}</h1>
+    <a href="{% url 'logout' %}">
+      <button>Logout</button>
+    </a>
+
+    <div >
+      <h3>Add New</h3>
+      <form method="post">
+        {% csrf_token %}
+        <input required min="3" type="text" name="recipient" />
+        <input type="submit" value="Add" />
+      </form>
+      {%if image_url%}
+      <p>
+        <span style="color: brown; font-weight: 900">Link:</span>
+        <span> {{image_url|truncatechars:40}}</span> 
+        <span>
+            <p style="display: none;" id="copy-message" >copied...</p>
+            <button onclick="copyToClipboard()" >copy</button>
+        </span>
+      </p>
+      {%endif%}
+    </div>
+
+    <br />
+    <br />
+<div style="max-width: 80vw; overflow: scroll; margin: 0 auto;" >
+  
+  <table>
+    <thead>
+      <tr>
+        <td>No.</td>
+        <td>Company</td>
+        <td>Visit Count</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in data %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{row.email_recipient}}</td>
+        <td>{{row.visit_count}}</td>
+      </tr>
+      {% empty %}
+      <tr>
+          <td colspan="3" align="center" >Not Data to show</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+    <script>
+        function copyToClipboard() {
+            var fullImageUrl = "{{ image_url }}";  // Insert your actual logic here
+
+            navigator.clipboard.writeText(fullImageUrl).then(function() {
+            let alertElement = document.getElementById('copy-message')
+            alertElement.style.display = 'block'
+            setTimeout(()=>{
+                alertElement.style.display = 'none'
+            },1500)
+            }).catch(function(err) {
+            console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+  </body>
+</html>
