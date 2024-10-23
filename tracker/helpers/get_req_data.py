@@ -20,10 +20,6 @@ COUNTRY_DICT = {
 def get_request_data(request):
     result ={
         "ip": "Not Available",
-        "city": "Not Available",
-        "state": "Not Available",
-        "country": "Not Available",
-        "isp": "Not Available",
         "user-agent": "Not Available",
     }
 
@@ -33,7 +29,6 @@ def get_request_data(request):
         pass
 
     def get_location():
-        # ip_address = '103.147.208.177'
         ip_address = request.META.get('REMOTE_ADDR')
         response = requests.get(f'https://ipinfo.io/{ip_address}/json').json()
 
